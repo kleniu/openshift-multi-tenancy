@@ -1,0 +1,708 @@
+<div class="navbar-fixed">
+    <nav class="themecolor darken-4">
+        <div class="nav-wrapper container">
+            <a href="" class="brand-logo"><i class="material-icons">cloud</i>{{title}}</a>
+            <a href="" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/logout">Logout {{email}}</a></li>
+                <li><a class="modal-trigger" href="#help">Help</a></li>
+                <li><a class="modal-trigger" href="#about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<ul class="sidenav" id="mobile-demo">
+    <li><a href="/logout">Logout {{email}}</a></li>
+    <li><a class="modal-trigger" href="#help">Help</a></li>
+    <li><a class="modal-trigger" href="#about">About</a></li>
+</ul>
+
+<div id="about" class="modal">
+    <div class="modal-content">
+        <h4>
+            <span>This is </span><span class="themecolor-text">{{title}}</span>
+        </h4>
+        <p>You can use this application to build a custom one that will perform any function.</p>
+        <p>(c) IBM Robert Kleniewski</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect btn-flat">OK</a>
+    </div>
+</div>
+
+<div id="help" class="modal">
+    <div class="modal-content">
+        <h4>Help page</h4>
+        <p>This app doesn't have a Help page yet, but luckily it's so simple that to tell you the truth, Help is not
+            needed.</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect btn-flat">Close</a>
+    </div>
+</div>
+
+<div id="modalInstallApp" class="modal">
+    <div class="modal-content">
+        <h5>Install Application in the app repository</h5>
+        <p>Enter information about your app required for cloning the app from git repo.</p>
+        <div class="row valign-wrapper">
+            <div class="col 4">
+                <p class="center  themecolor-text"><i class="material-icons large"><b
+                            class="themecolor-text">input</b></i></p>
+            </div>
+            <div class="col 8">
+                <form class="col s12" id="installAppForm">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">apps</i>
+                            <input id="appName" name="Application Name" type="text" pattern="[^\s]{1,}" class="validate">
+                            <label for="appName">Application Name</label>
+                            <span class="helper-text" data-error="Application name cannot have spaces or tabs" data-success="ok">Enter
+                                Application Name without spaces or tabs (e.g. test-app).</span>
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">build</i>
+                            <input id="appVersion" name="App Version" type="text" class="validate">
+                            <label for="appVersion">Application Version</label>
+                            <span class="helper-text" data-error="wrong format - no whitespaces allowed" pattern="[^\s]{1,}" data-success="ok">Enter version without spaces or tabs (e.g. v1).</span>
+                        </div>
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">public</i>
+                            <input id="appGitRepo" name="App GIT Repo" type="text" pattern=".{10,}" class="validate">
+                            <label for="appGitRepo">Application GIT repository address</label>
+                            <span class="helper-text" data-error="GIT repo address too short" data-success="ok">Enter GIT Repo address (e.g. git@github.com:kleniu/demo-webapp.git)</span>
+                        </div>
+                        <div class="col s6">
+                        </div>
+                        <div class="col s3">
+                            <p class="center">
+                                <button id="" class="btn waves-effect waves-light themecolor" type="submit">
+                                    Install
+                                    <label class="nooutline themecolor" />
+                                </button>
+                            </p>
+                        </div>
+                        <div class="col s3">
+                            <p class="center">
+                                <a class="waves-effect btn-flat" onclick="closeInstallAppForm()">Cancel</a>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalShowLog" class="modal">
+    <div class="modal-content">
+        <h5>Application install log</h5>
+        <p>
+            Installation status for application <b id="modalShowLog-aname"></b> version <b id="modalShowLog-aver"></b> is set to <b id="modalShowLog-aistat"></b>. 
+            Here you can find the installation script execution log.
+        </p>
+        <div id="modalShowLog-wait" class="row hide">
+            wait ...
+        </div>
+        <div id="modalShowLog-done" class="row hide">
+            <table id="modalShowLog-logtable" class="log">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Log</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="modalOnboardTenant" class="modal">
+    <div class="modal-content">
+        <h5>Onboard Tenant</h5>
+        <p>Enter information about tenant to instantiate the app.</p>
+        <div class="row valign-wrapper">
+            <div class="col 4">
+                <p class="center  themecolor-text"><i class="material-icons large"><b
+                            class="themecolor-text">account_box</b></i></p>
+            </div>
+            <div class="col 8">
+                <form id="onboardTenantForm">
+                    <div class="row">
+                        <div class="input-field col m12 l6">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input id="otTenantName" name="Tenant name" type="text" pattern="[^\s]{1,}" class="validate">
+                            <label for="otTenantName">Tenant Name</label>
+                            <span class="helper-text" data-error="Tenant name cannot have spaces or tabs" data-success="ok">
+                                Tenant Name without spaces or tabs (e.g. tenant1).</span>
+                        </div>
+                        <div class="input-field col m12 l6">
+                            <i class="material-icons prefix">language</i>
+                            <textarea id="otTenantEnv" class="materialize-textarea"></textarea>
+                            <label for="otTenantEnv">Env Vars</label>
+                            <span class="helper-text">
+                                Enter env variables to be passed to the instantiate script.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m12 l6">
+                            <i class="material-icons prefix">apps</i>
+                            <input id="otAppName" name="Application Name" type="text" pattern="[^\s]{1,}" class="validate">
+                            <label for="otAppName">Application Name</label>
+                            <span class="helper-text" data-error="Application name cannot have spaces or tabs" data-success="ok">Enter
+                                Application Name without spaces or tabs (e.g. test-app).</span>
+                        </div>
+                        <div class="input-field col m12 l6">
+                            <i class="material-icons prefix">build</i>
+                            <input id="otAppVersion" name="App Version" type="text" class="validate">
+                            <label for="otAppVersion">Application Version</label>
+                            <span class="helper-text" data-error="wrong format - no whitespaces allowed" pattern="[^\s]{1,}" data-success="ok">Enter 
+                                version without spaces or tabs (e.g. v1).</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                        </div>
+                        <div class="col s3">
+                            <p class="center">
+                                <button id="" class="btn waves-effect waves-light themecolor" type="submit">
+                                    Onboard
+                                    <label class="nooutline themecolor" />
+                                </button>
+                            </p>
+                        </div>
+                        <div class="col s3">
+                            <p class="center">
+                                <a class="waves-effect btn-flat" onclick="closeOnboardTenantForm()">Cancel</a>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="modalShowTenantLog" class="modal">
+    <div class="modal-content">
+        <h5>Tenant instantiate log</h5>
+        <p>
+            Instantiate status for tenant <b id="modalShowTenantLog-name"></b> associated with app <b id="modalShowTenantLog-appname"></b> version <b id="modalShowTenantLog-appver"></b>. 
+            Here you can find the instantiate script execution log.
+        </p>
+        <div id="modalShowTenantLog-wait" class="row hide">
+            wait ...
+        </div>
+        <div id="modalShowTenantLog-done" class="row hide">
+            <table id="modalShowTenantLog-logtable" class="log">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Log</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <ul id="tabs-swipe" class="tabs tabs-fixed-width">
+                <li class="tab col s3"><a class="active" href="#test-swipe-1">Application</a></li>
+                <li class="tab col s3"><a href="#test-swipe-2">Tenands</a></li>
+                <li class="tab col s3"><a href="#test-swipe-3">Usage and Billing</a></li>
+            </ul>
+            <div id="test-swipe-1" class="col s12">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="center">
+                            <span>Welcome to </span>
+                            <span class="themecolor-text"><b class="themecolor-text">{{title}}</b></span>
+                            <span>. Here you can find information about application to be instantiated in
+                                multinenant
+                                mode.</span>
+                        </h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s3">
+                        <p class="center themecolor-text"><i class="material-icons large"><b
+                                    class="themecolor-text">important_devices</b></i></p>
+                    </div>
+                    <div class="col s9">
+                        <div id="tableInstalledApps-wait" class="center-align hide">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="progress">
+                                        <div class="indeterminate"></div>
+                                    </div>
+                                    <h2 class="center">
+                                        <span id="tableInstalledApps-progress" class="themecolor-text"></span>
+                                        <span class="themecolor-text"></span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tableInstalledApps-done" class="hide">
+                            <table id="tableInstalledApps" class="highlight">
+                                <thead>
+                                    <tr>
+                                        <th>App Name</th>
+                                        <th>Version</th>
+                                        <th>Size [KB]</th>
+                                        <th>Location</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 center"><a style="Margin: 3px;"
+                            class="waves-effect waves-light btn themecolor" onclick="openInstallAppForm()"><i
+                                class="material-icons left">check</i>Install App</a></div>
+                    <div class="col s12 m6 center"><a style="Margin: 3px;"
+                            class="waves-effect waves-light btn themecolor" onclick="buttonUninstallApp()"><i
+                                class="material-icons left">close</i>Uninstall App</a></div>
+                </div>
+            </div>
+            <div id="test-swipe-2" class="col s12">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="center">
+                            <span>List of instantiated apps associated with </span>
+                            <span class="themecolor-text"><b class="themecolor-text">tenands</b></span>
+                            <span>. Use buttons below to instantiate new tenant.</span>
+                        </h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div id="tableTenants-wait" class="center-align hide">
+                            <div class="progress">
+                                <div class="indeterminate"></div>
+                            </div>
+                        </div>
+                        <div id="tableTenants-done" class="hide">
+                            <table id="tableTenants" class="highlight">
+                                <thead>
+                                    <tr>
+                                        <th>Tenant</th>
+                                        <th>Address</th>
+                                        <th>App Name</th>
+                                        <th>App Ver</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 center"><a style="Margin: 3px;"
+                            class="waves-effect waves-light btn themecolor" onclick="openOnboardTenantForm()"><i
+                                class="material-icons left">check</i>Onboard tenant</a></div>
+                    <div class="col s12 m6 center"><a style="Margin: 3px;"
+                            class="waves-effect waves-light btn themecolor" onclick="buttonDeleteTenant()"><i
+                                class="material-icons left">close</i>Delete tenant</a></div>
+                </div>
+            </div>
+            <div id="test-swipe-3" class="col s12">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="center">
+                            <span>TODO: to be developed</span>
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function openInstallAppForm() {
+        // console.log('DEBUG Install App button clicked.');
+        $('#modalInstallApp').modal('open');
+    }
+
+    function closeInstallAppForm() {
+        $("#modalInstallApp").modal("close");
+    }
+
+    $("#installAppForm").submit(function (event) {
+        // prevent submitting form by the browser
+        event.preventDefault();
+        var indata = {
+            appname: $("#appName").val(),
+            appver: $("#appVersion").val(),
+            gitrepo: $("#appGitRepo").val()
+        }
+        // console.log('DEBUG Install App submit button clicked. Input data =',indata);
+
+        if ( indata.appname == "" || indata.appver == "" || indata.gitrepo == "" ) {
+            M.toast({html: 'Enter required information!', classes: 'rounded red accent-4'});
+        }
+        else {
+            $("#tableInstalledApps-wait").removeClass("hide");
+            $("#tableInstalledApps-done").addClass("hide");
+            $.post('api/installapp', 
+                    {
+                        appname: indata.appname,
+                        appver: indata.appver,
+                        gitrepo: indata.gitrepo
+                    }, 
+                    function (res) {
+                        populateTableInstalledApps()
+                    },
+                    'json');
+
+            M.toast({html: 'Installation request submitted!', classes: 'rounded green darken-4'});      
+            closeInstallAppForm();
+            animateProgress();
+        }
+    });
+
+    function buttonUninstallApp() {
+        //console.log('DEBUG Uninstall App button clicked.');
+
+        var i = 0;
+        $("#tableInstalledApps tbody tr").each( function () {
+            var self = $(this);
+            var aname = self.find("td:eq(0)").text().trim(); // first collumn
+            var aver  = self.find("td:eq(1)").text().trim();
+            var checked = self.find("td:eq(5) input").prop('checked');
+            if( checked ) {
+                $("#tableInstalledApps-wait").removeClass("hide");
+                $("#tableInstalledApps-done").addClass("hide");
+                $.post('api/uninstallapp', 
+                    {
+                        appname: aname,
+                        appver: aver
+                    }, 
+                    function (res) {
+                        //console.log("DEBUG aname, aver, checked", aname, aver, checked);
+                        populateTableInstalledApps()
+                    },
+                    'json');
+            }
+        });
+    }
+
+    function showInstallLog( aname, aver, aistat ) {
+        //console.log('DEBUG show log for app : ' + aname + ' ver :' + aver );
+        // set header content
+        $("#modalShowLog-aname").text(aname);
+        $("#modalShowLog-aver").text(aver);
+        $("#modalShowLog-aistat").text(aistat);
+        // show wait indicator
+        $("#modalShowLog-wait").removeClass("hide");
+        $("#modalShowLog-done").addClass("hide");
+        $("#modalShowLog").modal("open");
+        // retrive logs
+        $.post('api/getinstalllog', 
+            {
+                appname: aname,
+                appver: aver
+            }, 
+            function (res) {
+                if( res.status == 0 ) {
+                    //console.log('DEBUG post api/getinstalllog result :', res);
+                    // populate log array
+                    var newTBody = '';
+                    var i = 0;
+                    var lighttxt = false; var colortxtclass = 'greytxt';
+                    res.data.forEach(function (item) {
+                        if ( /^## BEGIN/.test(item) ) { colortxtclass = 'yelowtxt'; lighttxt = true; }
+                        if ( /^## END/.test(item) ) { colortxtclass = 'yelowtxt'; lighttxt = false; }
+                        if ( /^#> /.test(item) ) { colortxtclass = 'greentxt'; }
+                        newTBody += '<tr>' +
+                            '  <td class="log">' + ++i + '</td>' +
+                            '  <td class="log ' + colortxtclass + '">' + item + '</td>' +
+                                    '</tr>'
+                        if ( lighttxt ) { colortxtclass = 'whitetxt'}
+                        else { colortxtclass = 'greytxt'}
+                    });
+                    $("#modalShowLog-logtable tbody").empty().append(newTBody);
+                    // show body data
+                    $("#modalShowLog-wait").addClass("hide");
+                    $("#modalShowLog-done").removeClass("hide");
+                }
+                else {
+                    console.log('DEBUG POST api/getinstalllog status != 0');
+                }
+            },
+            'json');
+        
+    }
+
+
+
+
+
+
+    function openOnboardTenantForm() {
+        // console.log('DEBUG openOnboardTenantForm');
+        $('#modalOnboardTenant').modal('open');
+    }
+
+    function closeOnboardTenantForm() {
+        //console.log('DEBUG closeOnboardTenantForm');
+        $("#modalOnboardTenant").modal("close");
+    }
+
+$("#onboardTenantForm").submit(function (event) {
+        // prevent submitting form by the browser
+        event.preventDefault();
+        console.log('DEBUG Onboard Tenant submit button clicked.');
+        
+        var indata = {
+            tenantname: $("#otTenantName").val(),
+            envvars: $("#otTenantEnv").val(),
+            appname: $("#otAppName").val(),
+            appver: $("#otAppVersion").val()
+        }
+        console.log('DEBUG Input data =',indata);
+        
+        if ( indata.tenantname == "" || indata.appname == "" || indata.appver == "" || indata.gitrepo == "" ) {
+            M.toast({html: 'Enter required information!', classes: 'rounded red accent-4'});
+        }
+        else {
+            $("#tableTenants-wait").removeClass("hide");
+            $("#tableTenants-done").addClass("hide");
+            $.post('api/createtenant', 
+                    {
+                        appname: indata.appname,
+                        appver: indata.appver,
+                        tenantname: indata.tenantname,
+                        envvars: indata.envvars
+                    }, 
+                    function (res) {
+                        populateTableTenants()
+                        //console.log(res);
+                    },
+                    'json');
+            
+            M.toast({html: 'Tenant onboard request submitted!', classes: 'rounded green darken-4'});      
+            closeOnboardTenantForm();
+        }
+    });
+
+
+    function buttonDeleteTenant() {
+        console.log('DEBUG buttonDeleteTenant');
+        var i = 0;
+        $("#tableTenants tbody tr").each( function () {
+            var self = $(this);
+            var tname = self.find("td:eq(0)").text().trim(); // first collumn
+            var aname = self.find("td:eq(2)").text().trim(); 
+            var aver  = self.find("td:eq(3)").text().trim();
+            var checked = self.find("td:eq(5) input").prop('checked');
+            if( checked ) {
+                $("#tableTenants-wait").removeClass("hide");
+                $("#tableTenants-done").addClass("hide");
+                $.post('api/deletetenant', 
+                    {
+                        appname: aname,
+                        appver: aver,
+                        tenantname: tname
+                    }, 
+                    function (res) {
+                        //console.log("DEBUG aname, aver, checked", aname, aver, checked);
+                        populateTableTenants()
+                    },
+                    'json');
+                M.toast({html: 'Tenant delete request submitted!', classes: 'rounded green darken-4'});
+            }
+        });
+    }
+
+    function showTenantLog( appname, appver, tname ) {
+        console.log('DEBUG show log for tenant : ' + tname );
+        // set header content
+        $("#modalShowTenantLog-name").text(tname);
+        $("#modalShowTenantLog-appname").text(appname);
+        $("#modalShowTenantLog-appver").text(appver);
+        // show wait indicator
+        $("#modalShowTenantLog-wait").removeClass("hide");
+        $("#modalShowTenantLog-done").addClass("hide");
+        $("#modalShowTenantLog").modal("open");
+        // retrive logs
+        $.post('api/gettenantlog', 
+            {
+                appname: appname,
+                appver: appver, 
+                tenantname: tname
+            }, 
+            function (res) {
+                if( res.status == 0 ) {
+                    //console.log('DEBUG post api/getinstalllog result :', res);
+                    // populate log array
+                    var newTBody = '';
+                    var i = 0;
+                    var lighttxt = false; var colortxtclass = 'greytxt';
+                    res.data.data.forEach(function (item) {
+                        if ( /^## BEGIN/.test(item) ) { colortxtclass = 'yelowtxt'; lighttxt = true; }
+                        if ( /^## END/.test(item) ) { colortxtclass = 'yelowtxt'; lighttxt = false; }
+                        if ( /^#> /.test(item) ) { colortxtclass = 'greentxt'; }
+                        newTBody += '<tr>' +
+                            '  <td class="log">' + ++i + '</td>' +
+                            '  <td class="log ' + colortxtclass + '">' + item + '</td>' +
+                                    '</tr>'
+                        if ( lighttxt ) { colortxtclass = 'whitetxt'}
+                        else { colortxtclass = 'greytxt'}
+                    });
+                    $("#modalShowTenantLog-logtable tbody").empty().append(newTBody);
+                    
+                }
+                else {
+                    M.toast({html: 'Cannot get tenant\'s log!', classes: 'rounded red accent-4'});
+                }
+                // show body data
+                $("#modalShowTenantLog-wait").addClass("hide");
+                $("#modalShowTenantLog-done").removeClass("hide");
+            },
+            'json');
+        
+    }
+
+    function populateTableInstalledApps() {
+        let retval = {};
+        $("#tableInstalledApps-wait").removeClass("hide");
+        $("#tableInstalledApps-done").addClass("hide");
+        animateProgress();
+        
+        $.get('api/getinstalledapps',
+            function (res) {
+                // console.log('DEBUG api/getinstalledapps => response :', res);
+                if (res.status == 0) {
+                    var newTBody = '';
+                    res.data.forEach(function (item) {
+                        newTBody += '<tr>' +
+                            '  <td>' + item.aname + '</td>' +
+                            '  <td>' + item.aver + '</td>' +
+                            '  <td>' + item.asize + '</td>' +
+                            '  <td>' + item.apath + '</td>'
+                        if( item.aistat == 'unknown') {
+                            newTbody += ' <td><p>unknown</p>'
+                        }
+                        else {
+                            newTBody += '  <td><p style="cursor: pointer; text-decoration: underline;" onclick="showInstallLog(\'' + item.aname + '\',\'' + item.aver + '\',\'' + item.aistat + '\')">' + item.aistat + '</p></td>'
+                        }
+                        newTBody += '  <td><label><input type="checkbox"/><span></span></label></td>' +
+                                    '</tr>'
+                    });
+                    $("#tableInstalledApps tbody").empty().append(newTBody);
+                    $("#tableInstalledApps-wait").addClass("hide");
+                    $("#tableInstalledApps-done").removeClass("hide");
+                }
+            },
+            'json')
+    }
+
+    function populateTableTenants() {
+        let retval = {};
+        $("#tableTenants-wait").removeClass("hide");
+        $("#tableTenants-done").addClass("hide");
+        
+        $.get('api/gettenants',
+            function (res) {
+                //console.log('DEBUG api/gettenants => response :', res);
+                if (res.status == 0) {
+                    var newTBody = '';
+                    res.data.forEach(function (item) {
+                        newTBody += 
+                            '<tr>' +
+                              '  <td>' + item.name + '</td>' +
+                              '  <td><a href="' + item.address + '" target="_blank">' + item.address + '</a></td>' +
+                              '  <td>' + item.appname + '</td>' +
+                              '  <td>' + item.appver + '</td>'
+                        if ( item.istat == 0 ) {
+                            newTBody +=
+                              '  <td><p style="cursor: pointer; text-decoration: underline;" onclick="showTenantLog(\'' + item.appname + '\',\'' + item.appver + '\',\'' + item.name + '\')">OK</p></td>'
+                        }
+                        else {
+                            newTBody +=
+                              '  <td><p style="cursor: pointer; text-decoration: underline;" onclick="showTenantLog(\'' + item.appname + '\',\'' + item.appver + '\',\'' + item.name + '\')">ERR</p></td>'
+                        }
+                        newTBody +=
+                              '  <td><label><input type="checkbox"/><span></span></label></td>' +
+                            '</tr>'
+                    });
+                    $("#tableTenants tbody").empty().append(newTBody);
+                    
+                }
+                else {
+                    console.log("DEBUG cannot get tenants list. res =", res);
+                    M.toast({html: 'Cannot get tenants list!', classes: 'rounded red accent-4'});
+                }
+                $("#tableTenants-wait").addClass("hide");
+                $("#tableTenants-done").removeClass("hide");
+            },
+            'json')
+    }
+
+    function animateProgress() {
+        var i=0;
+
+        function updateProgress(value) {
+            $('#tableInstalledApps-progress').text(value + '%');
+        }
+
+        function animateUpdate() {
+            if (i <= 99) {
+                if ( $('#tableInstalledApps-wait').hasClass('hide') ) {
+                    i=0
+                }
+                else {
+                    updateProgress(i++);
+                    setTimeout(animateUpdate, 670);
+                }
+            }
+        }
+
+        animateUpdate();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.sidenav');
+        var navInstances = M.Sidenav.init(elems);
+
+        var elems = document.querySelectorAll('.modal');
+        var modalInstances = M.Modal.init(elems);
+
+        var elems = document.querySelectorAll('.tabs');
+        var tabInstance = M.Tabs.init(elems, { swipeable: true, onShow: function (param) { 
+                // param holds the tab HTML structure
+                var tabId = $(param).filter('.active').attr("id");
+                if ( typeof tabId !== "undefined" ) {
+                    if ( tabId == "test-swipe-2" ) {
+                        populateTableTenants();
+                    }
+                }
+            }
+        });
+
+        //$("#tableInstalledApps-wait").removeClass("hide");
+        //$("#tableInstalledApps-done").addClass("hide");
+        //animateProgress();
+        populateTableInstalledApps();
+    });
+
+</script>

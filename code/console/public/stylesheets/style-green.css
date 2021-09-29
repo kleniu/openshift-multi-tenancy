@@ -1,0 +1,40 @@
+/* label focus color */
+.input-field input:focus + label {
+  color: #1b5e20 !important;
+}
+/* label underline focus color */
+.row .input-field input:focus {
+  border-bottom: 1px solid #1b5e20 !important;
+  box-shadow: 0 1px 0 0 #1b5e20 !important;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: #1b5e20;
+}
+
+.themecolor {
+  background-color: #1b5e20 !important;
+}
+
+.themecolor-text {
+  color: #1b5e20 !important;
+}
+
+.collapsible-body {
+  border-bottom-width: 0px;
+
+}
+
+.collapsible {
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 0px;
+}
+
+.nooutline:focus {
+ outline: none;
+}
+
+.btn-block {
+  width: 100%;
+}

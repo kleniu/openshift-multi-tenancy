@@ -1,0 +1,190 @@
+<div class="navbar-fixed">
+    <nav class="themecolor darken-4">
+        <div class="nav-wrapper container">
+            <a href="" class="brand-logo"><i class="material-icons">cloud</i>{{title}}</a>
+            <a href="" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a class="modal-trigger" href="#help">Help</a></li>
+                <li><a class="modal-trigger" href="#about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<ul class="sidenav" id="mobile-demo">
+    <li><a class="modal-trigger" href="#help">Help</a></li>
+    <li><a class="modal-trigger" href="#about">About</a></li>
+</ul>
+
+<div id="about" class="modal">
+    <div class="modal-content">
+        <h4>
+            <span>This is </span><span class="themecolor-text">{{title}}</span>
+        </h4>
+        <p>Tis app is a part of PoC for running webapps in multinenant mode.</p>
+        <p>(c) IBM Robert Kleniewski</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect btn-flat">OK</a>
+    </div>
+</div>
+
+<div id="help" class="modal">
+    <div class="modal-content">
+        <h4>Help page</h4>
+        <p>This app doesn't have a Help page yet, but luckily it's so simple that to tell you the truth, Help is not
+            needed.</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect btn-flat">Close</a>
+    </div>
+</div>
+
+
+<div class="container">
+    <ul class="collapsible popout z-depth-0">
+        <li >
+            <!-- <div class="collapsible-header"><i class="material-icons">filter_drama</i>Landing page</div> -->
+            <div class="collapsible-body">
+                <span>
+                    <div class="row">
+                        <div class="col s12">
+                            <h4>
+                                <p class="center"><span>Welcome to </span><span class="themecolor-text">{{title}}</span>
+                                </p>
+                            </h4>
+                        </div>
+                        <div class="col s12 m4">
+                            <p class="center themecolor-text"><i class="material-icons medium">fingerprint</i>
+                            </p>
+                            <h5>
+                                <p class="bold center">Authenticate first</p>
+                            </h5>
+                            <p class="light center">As the owner of the application to be instantiated in the multinenant model, you must first authenticate to on-board the new tenant.</p>
+                        </div>
+                        <div class="col s12 m8">
+                            <div class="row">
+                    <div class="col s1  m1 l1"></div>
+                    <div class="col s10 m10 l10 z-depth-0">
+                        <form class="col s12" id="loginForm">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input id="email" name="email" type="email" class="validate">
+                                    <label for="email">Username</label>
+                                    <span class="helper-text" data-error="wrong email" data-success="ok">Enter valid
+                                        email adress as the username</span>
+                                </div>
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">lock</i>
+                                    <input id="password" name="password" type="password" pattern=".{4,}"
+                                        class="validate">
+                                    <label for="password">Password</label>
+                                    <span class="helper-text" data-error="password too short" data-success="ok">Password
+                                        must me minimum 4 characters in length</span>
+                                </div>
+                                <div class="col s6">
+                                </div>
+                                <div class="col s6">
+                                    <p class="center">
+                                        <button id="login" class="btn waves-effect waves-light themecolor"
+                                            type="submit">
+                                            Login
+                                            <label class="nooutline" themecolor />
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col s1  m1 l1"></div>
+                </div>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </li>
+    </ul>
+
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems);
+
+        var elems = document.querySelectorAll('.modal');
+        var instances = M.Modal.init(elems);
+
+        $('.collapsible').collapsible();
+
+        // animate page mody
+        showPage(0);
+
+        // handle login form
+        //// submit event 
+        $("#loginForm").submit(function (event) {
+            // Prevent the form from submitting via the browser.
+            event.preventDefault();
+            loginPost();
+        });
+
+        //// do POST
+        function loginPost() {
+            var formData = {
+                email: $("#email").val(),
+                password: $("#password").val()
+            }
+            var loginURL = '';
+            if ( window.location.pathname.slice(-1) == '/' )
+                loginURL = window.location + "login";
+            else
+                loginURL = window.location + "/login";
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: loginURL,
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                success: function (loginRetVal) {
+                    //console.log("DEBUG: ", JSON.stringify(loginRetVal))
+                    if (loginRetVal.status == "OK") {
+                        if ( window.location.pathname.slice(-1) == '/' )
+                            window.location.replace(window.location + "main");
+                        else
+                            window.location.replace(window.location + "/main");
+                    } 
+                    else {
+                        M.toast({html: loginRetVal.desc, classes: 'rounded red darken-4'});
+                    }   
+                },
+                error: function (e) {
+                    M.toast({html: "URL not reachable", classes: 'rounded red darken-4'});
+                    console.log("ERROR: ", e);
+                }
+            });
+
+            // Reset FormData after Posting
+            resetLoginForm();
+
+        }
+
+        function resetLoginForm() {
+            $("#email").removeClass('valid').val('');
+            $("label[for=email]").removeClass('active')
+            $("#password").removeClass('valid').val('');
+            $("label[for=password]").removeClass('active')
+        }
+
+    });
+
+    function showPage(pageNum) {
+        var el = document.querySelector('.collapsible');
+        var instance = M.Collapsible.getInstance(el);
+        instance.open(pageNum);
+    }
+
+
+
+</script>

@@ -1,0 +1,23 @@
+{
+  "name": "proxy",
+  "version": "1.0.0",
+  "description": "Simple HTTP proxy",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.ibm.com:Robert-Kleniewski/openshift-multitenant.git"
+  },
+  "keywords": [
+    "Http",
+    "Proxy",
+    "Openshift"
+  ],
+  "author": "Robert Kleniewski IBM",
+  "license": "Apache-2.0",
+  "dependencies": {
+  }
+}

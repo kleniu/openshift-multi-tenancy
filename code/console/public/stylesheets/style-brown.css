@@ -1,0 +1,114 @@
+/* label focus color */
+.input-field input:focus + label {
+  color: #4e342e !important;
+}
+/* label underline focus color */
+.row .input-field input:focus {
+  border-bottom: 1px solid #4e342e !important;
+  box-shadow: 0 1px 0 0 #4e342e !important;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: #4e342e;
+}
+
+/* label focus color */
+.input-field textarea:focus + label {
+  color: #4e342e !important;
+}
+/* label underline focus color */
+.row .input-field textarea:focus {
+  border-bottom: 1px solid #4e342e !important;
+  box-shadow: 0 1px 0 0 #4e342e !important;
+}
+
+/* tabs */
+.tabs .tab a{
+  color:#bcaaa4;
+} /*Black color to the text*/
+
+.tabs .tab a:hover {
+  background-color:#efebe9;
+  color:#bcaaa4;
+} /*Text color on hover*/
+
+.tabs .tab a.active {
+  color:#6d4c41;
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+  background-color:#6d4c41;
+} 
+
+/* carusele */
+.carousel {
+  height: 1000px;
+}
+
+/* progress bar */
+.progress {
+  background-color: #4e342e;
+}
+
+
+.progress .indeterminate {
+  background-color: #bcaaa4;
+}
+
+.themecolor {
+  background-color: #4e342e !important;
+}
+
+.themecolor-text {
+  color: #4e342e !important;
+}
+
+.collapsible-body {
+  border-bottom-width: 0px;
+}
+
+.collapsible {
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 0px;
+}
+
+.nooutline:focus {
+ outline: none;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+table.log {
+  background-color:Black;
+  color:grey;
+  padding: 0px;
+}
+
+td.log {
+  background-color:Black;
+  color:grey;
+  padding: 0px 0px 0px 5px;
+}
+
+td.greytxt {
+  color:grey;
+}
+
+td.yelowtxt {
+  color:darkgoldenrod;
+}
+
+td.greentxt {
+  color:darkolivegreen;
+}
+
+td.whitetxt {
+  color:white;
+}
+
+td.bluetxt {
+  color:darkslateblue;
+}
