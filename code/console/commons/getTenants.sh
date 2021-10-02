@@ -35,12 +35,16 @@ prepareActions
 printf '{ "status" : 0, "desc" : "Success", "data" : ['
 FIRST=true
 for P in `oc get projects | grep Active | awk '{ if ($1 == "*") { print $2 } else { print $1} }' | grep "^instance-" | sed 's/^instance-//g'`; do
-	if [[ .${FIRST}. == .true. ]]; then
-		FIRST=false
-	else
-		printf ', '
-	fi
 	K=`find ${BASEDIR} -name tenant.${P}.log | head -1 | sed "s#${BASEDIR}##" | sed 's#/# #g' | xargs`
+    if [[ .${FIRST}. == .true. ]]; then
+        if [[ .${K}. != .. ]]; then
+            FIRST=false
+        fi
+    else
+        if [[ .${K}. != .. ]]; then
+            printf ', '
+        fi
+    fi
 	if [[ .${K}. != .. ]]; then
 		PAPPNAME=`echo $K | awk '{print $1}'`
 		APPVER=`echo $K | awk '{print $2}'`

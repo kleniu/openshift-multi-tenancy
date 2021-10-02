@@ -1,5 +1,5 @@
 FROM centos:8
-MAINTAINER Robert Kleniewski robert.kleniewski@pl.ibm.com
+LABEL version="1.0" maintainer="Robert Kleniewski robert.kleniewski@pl.ibm.com"
 
 # update OS and install tools
 RUN yum makecache
@@ -19,8 +19,9 @@ COPY deployment/docker/bins/oc /bin/.
 # create image for console app
 WORKDIR /app
 COPY . .
-RUN npm install
+ENV KUBECONFIG=/app/apps/.kube/config
+RUN mkdir /app/apps/.kube && chmod -R 777 /app/apps && npm install
 
 EXPOSE 3000
 CMD [ "npm", "start" ] 
-
+###
