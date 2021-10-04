@@ -15,7 +15,21 @@ for P in `find $BASEDIR/* -maxdepth 1 -mindepth 1`; do
 	AVER=`echo $APATH | awk -F '/' '{ print $2 }'`
 	ASIZE=`du -sk $P | awk '{print $1}'`
 	if [[ -f ${P}/appinstall.status ]]; then
-		AISTAT=`test -s ${P}/appinstall.status && printf "failed" || printf "OK"`
+		STATUS=`cat ${P}/appinstall.status 2>/dev/null | head -1 | xargs`
+		case ${STATUS} in
+			OK)
+				AISTAT="OK"
+				;;
+			error) 
+				AISTAT="ERR"
+				;;
+			installing)
+				AISTAT="INS"
+				;;
+			*)
+				AISTAT="unknown"
+				;;
+		esac
 	else
 		AISTAT="unknown"
 	fi

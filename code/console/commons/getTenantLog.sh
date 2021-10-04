@@ -47,11 +47,21 @@ prepareActions
 
 printf '{ "status" : 0, "desc" : "Success", "data" : {'
 printf '"name":"%s"' $TENANTNAME
-if [[ .`cat ${APPVERDIR}/tenant.${P}.status 2>/dev/null | wc -c | xargs`. == .0. ]]; then
-	printf ', "istat" : 0, "data" : ['
-else
-	printf ', "istat" : 1, "data" : ['
-fi
+STATUS=`cat ${APPVERDIR}/tenant.${TENANTNAME}.status 2>/dev/null | head -1 | xargs`
+case ${STATUS} in
+	OK)
+		printf ', "istat" : "OK", "data" : ['
+		;;
+	error) 
+		printf ', "istat" : "ERR", "data" : ['
+		;;
+	instantiating)
+		printf ', "istat" : "INS", "data" : ['
+		;;
+	*)
+		printf ', "istat" : "unknown", "data" : ['
+		;;
+esac
 
 _formatArrayElem ${LOGFILE}
 printf ']'

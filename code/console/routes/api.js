@@ -98,7 +98,6 @@ router.post('/gettenantlog', (req, res, next) => {
     });
 });
 
-
 router.post('/installapp', (req, res, next) => {
   var retval = {
     status: 0,
@@ -108,11 +107,12 @@ router.post('/installapp', (req, res, next) => {
   //console.log('DEBUG POST api/installapp data=',retval.input);
   runShellCmd.runInstall(req.body.appname, req.body.appver, req.body.gitrepo)
   .then((result) => {
+    console.log('DEBUG POST api/installapp finished with result =', result);
     retval = result; 
     res.send(retval);
   })
   .catch((e) => {
-    console.log('DEBUG error in installapp', e);
+    console.log('DEBUG error in POST api/installapp', e);
     retval.result = -1;
     retval.data.push(e);
     res.send(retval);
@@ -158,7 +158,6 @@ router.post('/createtenant', (req, res, next) => {
     res.send(retval);
   });
 });
-
 
 router.post('/uninstallapp', (req, res, next) => {
   var retval = {

@@ -52,11 +52,22 @@ for P in `oc get projects | grep Active | awk '{ if ($1 == "*") { print $2 } els
 		#printf '{"name":"%s","address":"http://gateway.%s/tenant/%s","appname":"%s","appver":"%s"' $P $OCPINGRESS $P $PAPPNAME $APPVER
 		# http://tenant2-instance-tenant2. openshift-070d31d9cf0761a13fcebd4a97861c1a-0000.eu-de.containers.appdomain.cloud
 		printf '{"name":"%s","address":"http://%s-instance-%s.%s","appname":"%s","appver":"%s"' $P $P $P $OCPINGRESS $PAPPNAME $APPVER
-		if [[ .`cat ${APPVERDIR}/tenant.${P}.status 2>/dev/null | wc -c | xargs`. == .0. ]]; then
-			printf ', "istat" : 0, "data" : ['
-		else
-			printf ', "istat" : 1, "data" : ['
-		fi
+		STATUS=`cat ${APPVERDIR}/tenant.${P}.status 2>/dev/null | head -1 | xargs`
+		case ${STATUS} in
+			OK)
+				printf ', "istat" : "OK", "data" : ['
+				;;
+			error) 
+				printf ', "istat" : "OK", "data" : ['
+				;;
+			instantiating)
+				printf ', "istat" : "OK", "data" : ['
+				;;
+			*)
+				printf ', "istat" : "unknown", "data" : ['
+				;;
+		esac
+		
 		LOGFILE=${APPVERDIR}/tenant.${P}.log
 		_formatArrayElem ${LOGFILE}
 		printf ']}'

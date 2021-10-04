@@ -270,10 +270,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s12 m6 center"><a style="Margin: 3px;"
+                    <div class="col s12 m4 center"><a style="Margin: 3px;"
+                            class="waves-effect waves-light btn-flat " onclick="populateTableInstalledApps()"><i
+                                class="material-icons left">refresh</i>Refresh table</a></div>
+                    <div class="col s12 m4 center"><a style="Margin: 3px;"
                             class="waves-effect waves-light btn themecolor" onclick="openInstallAppForm()"><i
                                 class="material-icons left">check</i>Install App</a></div>
-                    <div class="col s12 m6 center"><a style="Margin: 3px;"
+                    <div class="col s12 m4 center"><a style="Margin: 3px;"
                             class="waves-effect waves-light btn themecolor" onclick="buttonUninstallApp()"><i
                                 class="material-icons left">close</i>Uninstall App</a></div>
                 </div>
@@ -423,12 +426,12 @@
             }, 
             function (res) {
                 if( res.status == 0 ) {
-                    //console.log('DEBUG post api/getinstalllog result :', res);
+                    console.log('DEBUG post api/getinstalllog result :', res);
                     // populate log array
                     var newTBody = '';
                     var i = 0;
                     var lighttxt = false; var colortxtclass = 'greytxt';
-                    res.data.forEach(function (item) {
+                    res.data.data.forEach(function (item) {
                         if ( /^## BEGIN/.test(item) ) { colortxtclass = 'yelowtxt'; lighttxt = true; }
                         if ( /^## END/.test(item) ) { colortxtclass = 'yelowtxt'; lighttxt = false; }
                         if ( /^#> /.test(item) ) { colortxtclass = 'greentxt'; }
@@ -632,15 +635,16 @@ $("#onboardTenantForm").submit(function (event) {
                               '  <td>' + item.name + '</td>' +
                               '  <td><a href="' + item.address + '" target="_blank">' + item.address + '</a></td>' +
                               '  <td>' + item.appname + '</td>' +
-                              '  <td>' + item.appver + '</td>'
-                        if ( item.istat == 0 ) {
-                            newTBody +=
-                              '  <td><p style="cursor: pointer; text-decoration: underline;" onclick="showTenantLog(\'' + item.appname + '\',\'' + item.appver + '\',\'' + item.name + '\')">OK</p></td>'
-                        }
-                        else {
-                            newTBody +=
-                              '  <td><p style="cursor: pointer; text-decoration: underline;" onclick="showTenantLog(\'' + item.appname + '\',\'' + item.appver + '\',\'' + item.name + '\')">ERR</p></td>'
-                        }
+                              '  <td>' + item.appver + '</td>' +
+                              '  <td><p style="cursor: pointer; text-decoration: underline;" onclick="showTenantLog(\'' + item.appname + '\',\'' + item.appver + '\',\'' + item.name + '\')">' + item.istat + '</p></td>'
+                        // if ( item.istat == 0 ) {
+                        //    newTBody +=
+                        //      '  <td><p style="cursor: pointer; text-decoration: underline;" onclick="showTenantLog(\'' + item.appname + '\',\'' + item.appver + '\',\'' + item.name + '\')">OK</p></td>'
+                        //}
+                        //else {
+                        //    newTBody +=
+                        //      '  <td><p style="cursor: pointer; text-decoration: underline;" onclick="showTenantLog(\'' + item.appname + '\',\'' + item.appver + '\',\'' + item.name + '\')">ERR</p></td>'
+                        //}
                         newTBody +=
                               '  <td><label><input type="checkbox"/><span></span></label></td>' +
                             '</tr>'

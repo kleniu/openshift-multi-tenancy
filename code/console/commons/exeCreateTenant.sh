@@ -88,6 +88,7 @@ function prepareActions() {
 
 printf "## Executing %s script\n" `basename ${0}` > ${LOGFILE}
 printf "## %s\n" "`date`" >> ${LOGFILE}
+echo "instantiating" > ${STATUSFILE}
 
 prepareActions
 
@@ -113,6 +114,6 @@ printf "## Sucessfully executed script %s\n" `basename ${0}` >> ${LOGFILE}
 printf '{ "status" : 0, "desc" : "Success", "data" : ['
 _formatArrayElem ${LOGFILE}
 printf ']}'
-printf '' > ${STATUSFILE}
+printf 'OK' > ${STATUSFILE}
 exit 0
 

@@ -1,27 +1,61 @@
 #!/bin/bash
 BASEDIR=$1
-APPNAME=$2
+PAPPNAME=$2
 APPVER=$3
 
-function formatOutput() {
-	printf '{ "status" : 0, "desc" : "Success", "data" : ['
-	_FIRST=true
-	while read -r LINE; do
-		if [[ .$_FIRST. == .true. ]]; then
-			_FIRST=false
-		else
-			printf ','
-		fi
-		NOCH=`echo ${LINE} | sed "s/\"/\'/g"`
-		printf '"%s"' "${NOCH}"
-	done < appinstall.log 
-	printf ']}'
+APPVERDIR=${BASEDIR}/${PAPPNAME}/${APPVER}
+LOGFILE=${APPVERDIR}/appinstall.log
+STATUSFILE=${APPVERDIR}/appinstall.status
+
+function _formatArrayElem() {
+	FILENAME=$1
+	FIRST=true
+	if [[ -f ${FILENAME} ]]; then
+		while read -r LINE; do 
+			NOCH=`echo ${LINE} | sed "s/\"/\'/g"`
+			if [[ .${FIRST}. == .true. ]]; then
+				FIRST=false
+			else
+				if [[ .${NOCH}. != .. ]]; then printf ', '; fi
+			fi
+			if [[ .${NOCH}. != .. ]]; then printf '"%s"' "${NOCH}"; fi
+		done < ${FILENAME}
+	fi
 }
 
+function prepareActions() {
+	# check app dir
+	if [[ ! -d ${APPVERDIR} ]]; then
+		printf '{ "status" : 1, "desc" : "Application %s is not installed. The directory %s does not exist.", "data" : {}}' ${APPNAME} ${APPVERDIR}
+		exit 1
+	fi
+}
 
-if [[ ! -d ${BASEDIR}/${APPNAME}/${APPVER} ]]; then
-	printf '{ "status" : 1, "desc" : "Application %s version %s is NOT installed. Install it first.", "data" : []}' "${APPNAME}" "${APPVER}"
-else
-	cd ${BASEDIR}/${APPNAME}/${APPVER}
-	formatOutput
-fi
+prepareActions
+
+
+STATUS=`cat ${STATUSFILE} 2>/dev/null | head -1 | xargs`
+printf '{ "status" : 0, "desc" : "Success", "data" : { '
+printf '"aname":"%s", "aver":"%s"' $PAPPNAME $APPVER
+
+case ${STATUS} in
+	OK)
+		printf ', "istat" : "OK", "data" : ['
+		;;
+	error) 
+		printf ', "istat" : "ERR", "data" : ['
+		;;
+	installing)
+		printf ', "istat" : "INS", "data" : ['
+		;;
+	*)
+		printf ', "istat" : "unknown", "data" : ['
+		;;
+esac
+
+_formatArrayElem ${LOGFILE}
+printf ']'
+printf '}}'
+
+
+exit 0

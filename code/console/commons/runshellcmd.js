@@ -1,8 +1,9 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
+const spawn = require('child_process').spawn;
 var comm = require('../commons/commons.js');
 
-function _runCmd(command) {
+function _runCmd(command, backgroundrun = false) {
 	let resolv = {
 		code: -1,
 		cmd: command ,
@@ -12,19 +13,44 @@ function _runCmd(command) {
 
 	return new Promise((Resolve, reject) => {
 		if (command != '') {
-			exec(resolv.cmd)
-				.then((msg) => {
+			if ( backgroundrun ) {
+				try {
+					var cmdarray = resolv.cmd.split(' '); // args to the command neve have white characters inside
+					var cmd = cmdarray.shift();
+					//console.log('DEBUG cmd =', cmd);
+					//console.log('DEBUG cmdarray =', cmdarray);
+					spawn( cmd, cmdarray, {
+						stdio: 'ignore', // ignoring stdout/err/in by redirecting it to /dev/null
+						detached: true
+					}).unref(); // tricky? possible zombies will be walking around? who dares to fight zombies?
 					resolv.code = 0;
-					resolv.stdout = msg.stdout;
-					resolv.stderr = msg.stderr;
+					resolv.stdout = '{ "status" : 0, "desc" : "Script ' + cmd + ' started in background.", "data":[] }';
+					resolv.stderr = '';
 					Resolve(resolv);
-				})
-				.catch((e) => {
+				} catch (e) {
+					console.log('DEBUG error in _runCmd e =', e);
 					resolv.code = e.code;
-					resolv.stdout = e.stdout;
-					resolv.stderr = e.stderr;
+					resolv.stdout = '{ "status" : ' + e.code + ', "desc" : "Cannot start script ' + cmd + ' in the background.", "data":[] }';;
+					resolv.stderr = '';
 					Resolve(resolv);
-				});
+				}
+				
+			}
+			else {
+				exec(resolv.cmd)
+					.then((msg) => {
+						resolv.code = 0;
+						resolv.stdout = msg.stdout;
+						resolv.stderr = msg.stderr;
+						Resolve(resolv);
+					})
+					.catch((e) => {
+						resolv.code = e.code;
+						resolv.stdout = e.stdout;
+						resolv.stderr = e.stderr;
+						Resolve(resolv);
+					});
+			}
 		}
 		else {
 			reject("Provide the command to execute.");
@@ -71,7 +97,7 @@ function getInstallLog( appname, appver ) {
 	let resolv = {
 		status : 0,
 		desc   : '',
-		data   : []
+		data   : {}
 	};
 
 	return new Promise( (Resolve, reject) => {
@@ -111,7 +137,7 @@ function runInstall( appname, appver, appgitrepo) {
 
 	return new Promise( (Resolve, reject) => {
 		let command = 'commons/exeInstallScript.sh ' + comm.appsdir + ' ' + appname + ' ' + appver + ' ' + appgitrepo + ' ' + comm.ocptoken + ' ' + comm.ocpserver
-		_runCmd( command )
+		_runCmd( command, true ) // second parameter indicates that command will be ran in the background
 		.then( (msg) => {
 			//console.log('DEBUG commons/exeCreateTenant.sh msg=', msg);
 			resolv.status = 0;
@@ -380,7 +406,7 @@ runUninstall('test-app', 'v1')
 		console.error(e);
 	});
 
-runInstall('test-app', 'v1', 'git@github.com:kleniu/demo-webapp.git')
+runInstall('test-app', 'v1', 'https://github.com/kleniu/demo-webapp.git')
 	.then((msg) => {
 		console.log('msg', msg);
 	})
