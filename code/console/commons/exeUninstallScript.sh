@@ -80,47 +80,11 @@ printf ']}'
 printf '' > ${STATUSFILE}
 ## dangerous!
 rm -rf ${APPVERDIR}
+if [[ .`ls ${BASEDIR}/${PAPPNAME}`. == .. ]]; then
+	rmdir ${BASEDIR}/${PAPPNAME}
+fi
+
 exit 0
 
 
 
-
-
-
-
-function formatOutput() {
-	printf '{"status":2, "log" : ['
-	_FIRST=true
-	while read -r LINE; do
-		if [[ .$_FIRST. == .true. ]]; then
-			_FIRST=false
-		else
-			printf ','
-		fi
-		NOCH=`echo ${LINE} | sed "s/\"/\'/g"`
-		printf '"%s"' "${NOCH}"
-	done < uninstall.log 
-	printf ']}'
-}
-
-if [[ ! -d ${BASEDIR}/${APPNAME}/${APPVER} ]]; then
-	printf '{"status":1, "log" : ["Application %s version %s is NOT installed. Install it first."]}' "${APPNAME}" "${APPVER}"
-else
-	cd ${BASEDIR}/${APPNAME}/${APPVER}
-	> uninstall.status
-	echo "### Executing app uninstall script deployment/isvconsole/uninstall.sh" > uninstall.log
-	bash -c "*/deployment/isvconsole/uninstall.sh" >> uninstall.log 2>&1 
-	if [[ .$?. != .0. ]]; then
-		echo "### Script deployment/isvconsole/uninstall.sh returned non zero exit code." >> uninstall.log
-		echo "error" > uninstall.status
-	fi
-	if [[ -s uninstall.status ]]; then
-		formatOutput
-	else
-		cd $CURDIR
-		## dangerous!
-		rm -rf ${BASEDIR}/${APPNAME}/${APPVER}
-		printf '{"status":0, "log" : []}'
-	fi
-
-fi

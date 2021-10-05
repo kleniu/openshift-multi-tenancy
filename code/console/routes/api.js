@@ -127,6 +127,9 @@ router.post('/createtenant', (req, res, next) => {
   }
   // req.body/envvars example -> "APPNAME=\"tenant 1 app fo selling shoes\"\nAPPCOLOR=\"red\""
   console.log("DEBUG POST api/createtenant : req.body =", req.body);
+  // 
+  var tenantname = req.body.tenantname.toLowerCase();
+  console.log("DEBUG lowercase tenantname =", tenantname);
 
   var varenv = [];
   for(const envLine of req.body.envvars.split('\n') ) {
@@ -146,7 +149,7 @@ router.post('/createtenant', (req, res, next) => {
 
   //console.log('DEBUG POST api/createtenant req.body=',req.body);
 
-  runShellCmd.runCreateTenant(req.body.appname, req.body.appver, req.body.tenantname, varenv)
+  runShellCmd.runCreateTenant(req.body.appname, req.body.appver, tenantname, varenv)
   .then((result) => {
     retval = result;
     res.send(retval);

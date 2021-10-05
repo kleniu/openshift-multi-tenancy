@@ -25,7 +25,7 @@ function prepareActions() {
 	# login to openshift cluster
 	oc login --token="${OCPTOKEN}" --server="${OCPSERVER}" > /dev/null 2>&1
 	if [[ .$?. != .0. ]]; then
-		printf '{ "status" : 1, "desc" : "Cannot login to openshift cluster.", "data" : []'
+		printf '{ "status" : 1, "desc" : "Cannot login to openshift cluster.", "data" : [] }'
 		exit 1
 	fi
 }
@@ -58,10 +58,10 @@ for P in `oc get projects | grep Active | awk '{ if ($1 == "*") { print $2 } els
 				printf ', "istat" : "OK", "data" : ['
 				;;
 			error) 
-				printf ', "istat" : "OK", "data" : ['
+				printf ', "istat" : "ERR", "data" : ['
 				;;
 			instantiating)
-				printf ', "istat" : "OK", "data" : ['
+				printf ', "istat" : "INST", "data" : ['
 				;;
 			*)
 				printf ', "istat" : "unknown", "data" : ['

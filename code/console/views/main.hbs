@@ -317,10 +317,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s12 m6 center"><a style="Margin: 3px;"
+                    <div class="col s12 m4 center"><a style="Margin: 3px;"
+                            class="waves-effect waves-light btn-flat" onclick="populateTableTenants()"><i
+                                class="material-icons left">refresh</i>Refresh table</a></div>
+                    <div class="col s12 m4 center"><a style="Margin: 3px;"
                             class="waves-effect waves-light btn themecolor" onclick="openOnboardTenantForm()"><i
                                 class="material-icons left">check</i>Onboard tenant</a></div>
-                    <div class="col s12 m6 center"><a style="Margin: 3px;"
+                    <div class="col s12 m4 center"><a style="Margin: 3px;"
                             class="waves-effect waves-light btn themecolor" onclick="buttonDeleteTenant()"><i
                                 class="material-icons left">close</i>Delete tenant</a></div>
                 </div>
@@ -487,23 +490,39 @@ $("#onboardTenantForm").submit(function (event) {
             M.toast({html: 'Enter required information!', classes: 'rounded red accent-4'});
         }
         else {
-            $("#tableTenants-wait").removeClass("hide");
-            $("#tableTenants-done").addClass("hide");
-            $.post('api/createtenant', 
-                    {
-                        appname: indata.appname,
-                        appver: indata.appver,
-                        tenantname: indata.tenantname,
-                        envvars: indata.envvars
-                    }, 
-                    function (res) {
-                        populateTableTenants()
-                        //console.log(res);
-                    },
-                    'json');
+            // check if the app has been installed
+            $.post('api/getinstalllog', 
+                {
+                    appname: indata.appname,
+                    appver: indata.appver
+                }, 
+                function (res) {
+                    if ( res.status == 0 && res.data.istat == 'OK') {
+                        $("#tableTenants-wait").removeClass("hide");
+                        $("#tableTenants-done").addClass("hide");
+                        $.post('api/createtenant', 
+                                {
+                                    appname: indata.appname,
+                                    appver: indata.appver,
+                                    tenantname: indata.tenantname,
+                                    envvars: indata.envvars
+                                }, 
+                                function (res) {
+                                    populateTableTenants()
+                                    //console.log(res);
+                                },
+                                'json');
+                        
+                        M.toast({html: 'Tenant onboard request submitted!', classes: 'rounded green darken-4'});      
+                        closeOnboardTenantForm();
+                    }
+                    else {
+                        M.toast({html: 'Provided app name and version is invalid!', classes: 'rounded red accent-4'});
+                    }
+                }
+            )
             
-            M.toast({html: 'Tenant onboard request submitted!', classes: 'rounded green darken-4'});      
-            closeOnboardTenantForm();
+            
         }
     });
 
@@ -654,7 +673,7 @@ $("#onboardTenantForm").submit(function (event) {
                 }
                 else {
                     console.log("DEBUG cannot get tenants list. res =", res);
-                    M.toast({html: 'Cannot get tenants list!', classes: 'rounded red accent-4'});
+                    M.toast({html: 'Cannot get tenants list! ' + res.desc, classes: 'rounded red accent-4'});
                 }
                 $("#tableTenants-wait").addClass("hide");
                 $("#tableTenants-done").removeClass("hide");

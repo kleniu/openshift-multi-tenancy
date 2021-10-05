@@ -30,12 +30,14 @@ function _formatArrayElem() {
 function prepareActions() {
 	# check app dir
 	if [[ ! -d ${APPVERDIR} ]]; then
+		printf 'Application %s is not installed. The directory %s does not exist.\n' "${APPNAME}" "${APPVERDIR}" >> ${LOGFILE} 2>&1
 		printf '{ "status" : 1, "desc" : "Application %s is not installed. The directory %s does not exist.", "data" : []}' ${APPNAME} ${APPVERDIR}
 		echo "error" > ${STATUSFILE}
 		exit 1
 	fi
 	# check instantiated tenants
 	if [[ .`ls ${APPVERDIR}/tenant.${TENANTNAME}.* | wc -l | xargs`. == .0. ]]; then
+		printf 'Tenant %s is not instantiated.\n' "${TENANTNAME}" >> ${LOGFILE} 2>&1
 		printf '{ "status" : 2, "desc" : "Tenant %s is not instantiated.", "data" : []}' ${TENANTNAME}
 		rm ${ENVFILE}
 		echo "error" > ${STATUSFILE}
@@ -45,6 +47,7 @@ function prepareActions() {
 	printf '#> oc login --token="<YOUR_SECRET_TOKEN>" --server="%s"\n' "${OCPSERVER}" >> ${LOGFILE} 2>&1
 	oc login --token="${OCPTOKEN}" --server="${OCPSERVER}" >> ${LOGFILE} 2>&1
 	if [[ .$?. != .0. ]]; then
+		printf 'Cannot login to openshift cluster.\n' >> ${LOGFILE} 2>&1
 		printf '{ "status" : 3, "desc" : "Cannot login to openshift cluster.", "data" : ['
 		_formatArrayElem ${LOGFILE}
 		printf ']}'
@@ -53,7 +56,8 @@ function prepareActions() {
 	fi
 	# checking if project associated with tenant already exists
 	printf '## Checking if openshift project (namespace) "%s" exists.\n' "instance-${TENANTNAME}" >> ${LOGFILE} 2>&1
-	if [[ .`oc projects | awk '{ if ($1 == "*") { print $2 } else { print $1} }' | grep "^instance-${TENANTNAME}" | wc -l | xargs`. == .0. ]]; then
+	if [[ .`oc get projects | grep Active | awk '{ if ($1 == "*") { print $2 } else { print $1} }' | grep "^instance-${TENANTNAME}" | wc -l | xargs`. == .0. ]]; then
+		printf 'Tenant %s does not exist.\n' "${TENANTNAME}" >> ${LOGFILE} 2>&1
 		printf '{"status" : 4, "desc" : "Tenant %s does not exist", "data" : []}' "${TENANTNAME}"
 		echo "error" > ${STATUSFILE}
 		exit 4
