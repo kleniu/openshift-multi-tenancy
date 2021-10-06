@@ -1,1 +1,3 @@
-site_name: My Docs
+site_name: Openshift multi-tenancy web apps.
+theme:
+    name: readthedocs

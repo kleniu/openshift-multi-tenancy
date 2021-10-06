@@ -48,7 +48,7 @@ export OCPINGRESS='<your_OCP_ingress_address>
 
 *OCPTOKEN* and *OCPSERVER* - Follow the instructions available on page: https://ibm-developer.gitbook.io/openshift101/resources/setup_cli to get your API token and serwer URL address. The API token (OCPTOKEN) is the string 51 characters long and looks like this: sha256~XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX . The Server address (OCPSERVER) is the URL address profided in --server parameter of the 'oc login' command"
 
-*OCPINFRESS* - Login to your IBM Cloud account and click on your up and running Openshift service. On the 'Overview' page find the 'Networking' section and grab the 'Ingress subdomain' address. The 'Ingress subdomain' default value - looks like this: openshift-070d31d9cf0761a13fcebd4a97861c1a-0000.eu-de.containers.appdomain.cloud"
+*OCPINGRESS* - Login to your IBM Cloud account and click on your up and running Openshift service. On the 'Overview' page find the 'Networking' section and grab the 'Ingress subdomain' address. The 'Ingress subdomain' default value - looks like this: openshift-070d31d9cf0761a13fcebd4a97861c1a-0000.eu-de.containers.appdomain.cloud"
 
 
 2) Start the ISV Console application in the Openshift cluster
