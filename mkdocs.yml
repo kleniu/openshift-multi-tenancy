@@ -1,0 +1,8 @@
+site_name: Openshift multi-tenancy web apps.
+theme:
+    name: readthedocs
+# Repository
+repo_name: Openshift multi-tenancy web apps.
+repo_url: https://github.com/kleniu/openshift-multi-tenancy
+edit_uri: edit/master/documentation
+docs_dir: documentation
