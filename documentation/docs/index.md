@@ -22,7 +22,7 @@ cd deployment/
 if you want to remove pods, namespaces and all other artifacts created by `deployment.sh` script then run `removeall.sh` script.
 
 ## Architecture
-![Architecture diagram](../artefacts/arch.png)
+![Architecture diagram](artefacts/arch.png)
 
 ## Use cases
 coming soon

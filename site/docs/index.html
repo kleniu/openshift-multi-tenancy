@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Welcome to Openshift multi-tenancy web apps. - Openshift multi-tenancy web apps.</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Welcome to Openshift multi-tenancy web apps.";
+    var mkdocs_page_input_path = "docs/index.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Openshift multi-tenancy web apps.</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Docs</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Welcome to Openshift multi-tenancy web apps.</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Openshift multi-tenancy web apps.</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Docs &raquo;</li>
+        
+      
+    
+    <li>Welcome to Openshift multi-tenancy web apps.</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/kleniu/openshift-multi-tenancy/edit/master/documentation/docs/index.md"> Edit on Openshift multi-tenancy web apps.</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="welcome-to-openshift-multi-tenancy-web-apps">Welcome to Openshift multi-tenancy web apps.</h1>
+<h1 id="quick-start">Quick start</h1>
+<p>1) Export required environmental variables</p>
+<pre><code>export OCPTOKEN='&lt;your_OCP_token_used_to_login_to_Openshift_cluster'
+export OCPSERVER='&lt;your_OCP_server_address'
+export OCPINGRESS='&lt;your_OCP_ingress_address&gt;
+</code></pre>
+<p><em>Here you can find instructions how to get these values</em></p>
+<p><em>OCPTOKEN</em> and <em>OCPSERVER</em> - Follow the instructions available on page: https://ibm-developer.gitbook.io/openshift101/resources/setup_cli to get your API token and serwer URL address. The API token (OCPTOKEN) is the string 51 characters long and looks like this: sha256~XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX . The Server address (OCPSERVER) is the URL address profided in --server parameter of the 'oc login' command"</p>
+<p><em>OCPINGRESS</em> - Login to your IBM Cloud account and click on your up and running Openshift service. On the 'Overview' page find the 'Networking' section and grab the 'Ingress subdomain' address. The 'Ingress subdomain' default value - looks like this: openshift-070d31d9cf0761a13fcebd4a97861c1a-0000.eu-de.containers.appdomain.cloud"</p>
+<p>2) Start the ISV Console application in the Openshift cluster</p>
+<pre><code>cd deployment/
+./deployment.sh
+</code></pre>
+<p>if you want to remove pods, namespaces and all other artifacts created by <code>deployment.sh</code> script then run <code>removeall.sh</code> script.</p>
+<h2 id="architecture">Architecture</h2>
+<p><img alt="Architecture diagram" src="../artefacts/arch.png" /></p>
+<h2 id="use-cases">Use cases</h2>
+<p>coming soon</p>
+<h2 id="technology-used">Technology used</h2>
+<p>coming soon</p>
+<h2 id="project-directory-layout">Project directory layout</h2>
+<pre><code>code/
+    console/  # NodeJS Express web app for ISV admin.
+    proxy/    # NodeJS http reverse proxy (work in progress)
+deployment/
+    deployall.sh    # Trivial openshift deployment script.
+    removeall.sh    # Cleanup script.
+documentation/
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
