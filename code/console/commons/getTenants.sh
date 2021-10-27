@@ -49,8 +49,6 @@ for P in `oc get projects | grep Active | awk '{ if ($1 == "*") { print $2 } els
 		PAPPNAME=`echo $K | awk '{print $1}'`
 		APPVER=`echo $K | awk '{print $2}'`
 		APPVERDIR=${BASEDIR}/${PAPPNAME}/${APPVER}
-		#printf '{"name":"%s","address":"http://gateway.%s/tenant/%s","appname":"%s","appver":"%s"' $P $OCPINGRESS $P $PAPPNAME $APPVER
-		# http://tenant2-instance-tenant2. openshift-070d31d9cf0761a13fcebd4a97861c1a-0000.eu-de.containers.appdomain.cloud
 		printf '{"name":"%s","address":"http://%s-instance-%s.%s","appname":"%s","appver":"%s"' $P $P $P $OCPINGRESS $PAPPNAME $APPVER
 		STATUS=`cat ${APPVERDIR}/tenant.${P}.status 2>/dev/null | head -1 | xargs`
 		case ${STATUS} in

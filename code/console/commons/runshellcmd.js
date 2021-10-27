@@ -15,10 +15,8 @@ function _runCmd(command, backgroundrun = false) {
 		if (command != '') {
 			if ( backgroundrun ) {
 				try {
-					var cmdarray = resolv.cmd.split(' '); // args to the command neve have white characters inside
+					var cmdarray = resolv.cmd.split(' '); // args to the command never have "white" characters inside
 					var cmd = cmdarray.shift();
-					//console.log('DEBUG cmd =', cmd);
-					//console.log('DEBUG cmdarray =', cmdarray);
 					spawn( cmd, cmdarray, {
 						stdio: 'ignore', // ignoring stdout/err/in by redirecting it to /dev/null
 						detached: true
@@ -69,11 +67,9 @@ function getInstalledApps() {
 		let command = 'commons/getInstalledApps.sh ' + comm.appsdir;
 		_runCmd( command )
 		.then( (msg) => {
-			//console.log('DEBUG commons/exeCreateTenant.sh msg=', msg);
 			resolv.status = 0;
 			try {
 				var parsedVal = JSON.parse(msg.stdout);
-				//console.log('DEBUG parsedVal', parsedVal);
 				resolv.status = parsedVal.status;
 				resolv.desc   = parsedVal.desc;
 				resolv.data   = parsedVal.data;
@@ -83,7 +79,6 @@ function getInstalledApps() {
 				resolv.desc = 'Error in parsing string : ' + msg.stdout;
 				resolv.data = {};
 			};
-			//console.log('DEBUG resolv=', resolv);
 			Resolve(resolv);
 		})
 		.catch( (e) => {
@@ -104,11 +99,9 @@ function getInstallLog( appname, appver ) {
 		let command = 'commons/getInstallLog.sh ' + comm.appsdir + ' ' + appname + ' ' + appver
 		_runCmd( command )
 		.then( (msg) => {
-			//console.log('DEBUG commons/exeCreateTenant.sh msg=', msg);
 			resolv.status = 0;
 			try {
 				var parsedVal = JSON.parse(msg.stdout);
-				//console.log('DEBUG parsedVal', parsedVal);
 				resolv.status = parsedVal.status;
 				resolv.desc   = parsedVal.desc;
 				resolv.data   = parsedVal.data;
@@ -118,7 +111,6 @@ function getInstallLog( appname, appver ) {
 				resolv.desc = 'Error in parsing string : ' + msg.stdout;
 				resolv.data = {};
 			};
-			//console.log('DEBUG resolv=', resolv);
 			Resolve(resolv);
 		})
 		.catch( (e) => {
@@ -139,11 +131,9 @@ function runInstall( appname, appver, appgitrepo) {
 		let command = 'commons/exeInstallScript.sh ' + comm.appsdir + ' ' + appname + ' ' + appver + ' ' + appgitrepo + ' ' + comm.ocptoken + ' ' + comm.ocpserver
 		_runCmd( command, true ) // second parameter indicates that command will be ran in the background
 		.then( (msg) => {
-			//console.log('DEBUG commons/exeCreateTenant.sh msg=', msg);
 			resolv.status = 0;
 			try {
 				var parsedVal = JSON.parse(msg.stdout);
-				//console.log('DEBUG parsedVal', parsedVal);
 				resolv.status = parsedVal.status;
 				resolv.desc   = parsedVal.desc;
 				resolv.data   = parsedVal.data;
@@ -153,7 +143,6 @@ function runInstall( appname, appver, appgitrepo) {
 				resolv.desc = 'Error in parsing string : ' + msg.stdout;
 				resolv.data = {};
 			};
-			//console.log('DEBUG resolv=', resolv);
 			Resolve(resolv);
 		})
 		.catch( (e) => {
@@ -174,11 +163,9 @@ function runUninstall( appname, appver ) {
 		let command = 'commons/exeUninstallScript.sh ' + comm.appsdir + ' ' + appname + ' ' + appver + ' ' + comm.ocptoken + ' ' + comm.ocpserver;
 		_runCmd( command )
 		.then( (msg) => {
-			//console.log('DEBUG commons/exeCreateTenant.sh msg=', msg);
 			resolv.status = 0;
 			try {
 				var parsedVal = JSON.parse(msg.stdout);
-				//console.log('DEBUG parsedVal', parsedVal);
 				resolv.status = parsedVal.status;
 				resolv.desc   = parsedVal.desc;
 				resolv.data   = parsedVal.data;
@@ -188,7 +175,6 @@ function runUninstall( appname, appver ) {
 				resolv.desc = 'Error in parsing string : ' + msg.stdout;
 				resolv.data = {};
 			};
-			//console.log('DEBUG resolv=', resolv);
 			Resolve(resolv);
 		})
 		.catch( (e) => {
@@ -216,11 +202,9 @@ function runCreateTenant( appname, appver, tenantname, varsArray ) {
 		let command = 'commons/exeCreateTenant.sh ' + comm.appsdir + ' ' + appname + ' ' + appver + ' ' + tenantname + ' ' + comm.ocptoken + ' ' + comm.ocpserver + ' ' + base64;
 		_runCmd( command )
 		.then( (msg) => {
-			//console.log('DEBUG commons/exeCreateTenant.sh msg=', msg);
 			resolv.status = 0;
 			try {
 				var parsedVal = JSON.parse(msg.stdout);
-				//console.log('DEBUG parsedVal', parsedVal);
 				resolv.status = parsedVal.status;
 				resolv.desc   = parsedVal.desc;
 				resolv.data   = parsedVal.data;
@@ -230,7 +214,6 @@ function runCreateTenant( appname, appver, tenantname, varsArray ) {
 				resolv.desc = 'Error in parsing string : ' + msg.stdout;
 				resolv.data = {};
 			};
-			//console.log('DEBUG resolv=', resolv);
 			Resolve(resolv);
 		})
 		.catch( (e) => {
@@ -251,11 +234,9 @@ function runDeleteTenant( appname, appver, tenantname ) {
 		let command = 'commons/exeDeleteTenant.sh ' + comm.appsdir + ' ' + appname + ' ' + appver + ' ' + tenantname + ' ' + comm.ocptoken + ' ' + comm.ocpserver;
 		_runCmd( command )
 		.then( (msg) => {
-			//console.log('DEBUG commons/exeDeleteTenant.sh msg=', msg);
 			resolv.status = 0;
 			try {
 				var parsedVal = JSON.parse(msg.stdout);
-				//console.log('DEBUG parsedVal', parsedVal);
 				resolv.status = parsedVal.status;
 				resolv.desc   = parsedVal.desc;
 				resolv.data   = parsedVal.data;
@@ -265,7 +246,6 @@ function runDeleteTenant( appname, appver, tenantname ) {
 				resolv.desc = 'Error in parsing string : ' + msg.stdout;
 				resolv.data = {};
 			};
-			//console.log('DEBUG resolv=', resolv);
 			Resolve(resolv);
 		})
 		.catch( (e) => {
@@ -286,12 +266,10 @@ function getTenants() {
 		let command = 'commons/getTenants.sh ' + comm.appsdir + ' ' + comm.ocptoken + ' ' + comm.ocpserver + ' ' + comm.ocpingress;
 		_runCmd( command )
 		.then( (msg) => {
-			//console.log('DEBUG commons/getTenants.sh msg=', msg);
 			resolv.status = 0;
 			try {
 				console.log("DEBUG getTenants - msg.stdout =", msg.stdout);
 				var parsedVal = JSON.parse(msg.stdout);
-				//console.log('DEBUG parsedVal', parsedVal);
 				resolv.status = parsedVal.status;
 				resolv.desc   = parsedVal.desc;
 				resolv.data   = parsedVal.data;
@@ -301,7 +279,6 @@ function getTenants() {
 				resolv.desc = 'Error in parsing string : ' + msg.stdout;
 				resolv.data = [];
 			};
-			//console.log('DEBUG resolv=', resolv);
 			Resolve(resolv);
 		})
 		.catch( (e) => {
@@ -322,11 +299,9 @@ function getTenantLog( appname, appver, tenantname ) {
 		let command = 'commons/getTenantLog.sh ' + comm.appsdir + ' ' + appname + ' ' + appver + ' ' + tenantname + ' ' + comm.ocptoken + ' ' + comm.ocpserver;
 		_runCmd( command )
 		.then( (msg) => {
-			//console.log('DEBUG commons/getTenants.sh msg=', msg);
 			resolv.status = 0;
 			try {
 				var parsedVal = JSON.parse(msg.stdout);
-				//console.log('DEBUG parsedVal', parsedVal);
 				resolv.status = parsedVal.status;
 				resolv.desc   = parsedVal.desc;
 				resolv.data   = parsedVal.data;
@@ -336,7 +311,6 @@ function getTenantLog( appname, appver, tenantname ) {
 				resolv.desc = 'Error in parsing string : ' + msg.stdout;
 				resolv.data = {};
 			};
-			//console.log('DEBUG resolv=', resolv);
 			Resolve(resolv);
 		})
 		.catch( (e) => {
@@ -356,61 +330,3 @@ module.exports = {
 	getTenants: getTenants,
 	getTenantLog: getTenantLog
 };
-
-/*
-runCreateTenant( 'test-app', 'v1', 'tenant1', 
-	[ 
-		{ varName:"APPCOLOR", varValue:"red" }, 
-		{ varName:"APPNAME",  varValue:"Tenant 1 application." }
-	])
-.then( (msg) => {
-	console.log('DEBUG runCreateTenant returns : ', msg);
-});
-
-getTenants( )
-.then( (msg) => {
-	console.log('DEBUG getTenants returns : ', msg);
-});
-
-getTenantLog( 'test-app', 'v1', 'tenant1')
-.then( (msg) => {
-	console.log('DEBUG getTenantLog returns : ', msg);
-});
-
-runDeleteTenant( 'test-app', 'v1', 'tenant1')
-.then( (msg) => {
-	console.log('DEBUG runDeleteTenant returns : ', msg);
-});
-
-getInstallLog('test-app', 'v1')
-	.then((msg) => {
-		console.log('msg', msg);
-	})
-	.catch((e) => {
-		console.error(e);
-	});
-
-getInstalledApps()
-	.then((msg) => {
-		console.log('msg', msg);
-	})
-	.catch((e) => {
-		console.error(e);
-	});
-
-runUninstall('test-app', 'v1')
-	.then((msg) => {
-		console.log('msg', msg);
-	})
-	.catch((e) => {
-		console.error(e);
-	});
-
-runInstall('test-app', 'v1', 'https://github.com/kleniu/demo-webapp.git')
-	.then((msg) => {
-		console.log('msg', msg);
-	})
-	.catch((e) => {
-		console.error(e);
-	});
-*/

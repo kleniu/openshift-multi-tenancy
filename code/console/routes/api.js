@@ -8,16 +8,11 @@ var comm = require('../commons/commons.js');
 
 /* ping pong game. */
 router.get('/ping', (req, res, next) => {
-  //if (req.session.logged === true) {
-  //console.log("DEBUG: email=", req.session.email);
   var retval = {
     status: 0,
     data: ['pong']
   }
   res.send(retval);
-  //} else {
-  //  res.redirect('/');
-  //}
 });
 
 router.get('/getinstalledapps', (req, res, next) => {
@@ -26,7 +21,6 @@ router.get('/getinstalledapps', (req, res, next) => {
     desc: '',
     data: []
   }
-  //console.log('DEBUG GET api/getinstalledapps');
   runShellCmd.getInstalledApps()
     .then((result) => {
       retval = result;
@@ -45,7 +39,6 @@ router.get('/gettenants', (req, res, next) => {
     status: 0,
     data: []
   }
-  //console.log('DEBUG GET api/getinstalledapps');
   runShellCmd.getTenants()
     .then((result) => {
       retval = result;
@@ -65,7 +58,6 @@ router.post('/getinstalllog', (req, res, next) => {
     desc: '',
     data: []
   }
-  //console.log('DEBUG GET api/getinstalledapps');
   runShellCmd.getInstallLog(req.body.appname, req.body.appver)
     .then((result) => {
       retval = result; 
@@ -138,16 +130,6 @@ router.post('/createtenant', (req, res, next) => {
     // console.log("DEBUG varenventry = ", varenventry);
     varenv.push( { varName : varenventry[0], varValue: varenventry[1] });
 	}
-  // console.log("DEBUG varenv = ", varenv);
-
-  /*
-  var varenv = [ 
-		{ varName:"APPCOLOR", varValue:"red" }, 
-		{ varName:"APPNAME",  varValue:"Tenant 1 application." }
-	];
-  */
-
-  //console.log('DEBUG POST api/createtenant req.body=',req.body);
 
   runShellCmd.runCreateTenant(req.body.appname, req.body.appver, tenantname, varenv)
   .then((result) => {

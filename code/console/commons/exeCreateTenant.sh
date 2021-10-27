@@ -5,8 +5,6 @@ APPVER=$3
 TENANTNAME=$4
 OCPTOKEN=$5
 OCPSERVER=$6
-# printf 'APPCOLOR="%s"\nAPPNAME="%s"' "brown" "Tenant 1 app" | base64 | base64 -d
-# QVBQQ09MT1I9ImJyb3duIgpBUFBOQU1FPSJUZW5hbnQgMSBhcHAi
 EVARB64=$7
 
 # Do not change

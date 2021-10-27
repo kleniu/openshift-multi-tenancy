@@ -61,7 +61,7 @@ if you want to remove pods, namespaces and all other artifacts created by `deplo
 
 ## Documentation
 
-The documentation will be available [here](https://kleniu.github.io/openshift-multi-tenancy/) 
+The documentation is available [here](https://kleniu.github.io/openshift-multi-tenancy/) 
 
 ## How to contribute to the project
 Drop me a message via [LinkedIn](https://www.linkedin.com/in/robert-kleniewski-8563241/). I will be delighted to to meet you there!
