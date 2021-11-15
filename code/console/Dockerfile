@@ -20,7 +20,7 @@ COPY deployment/docker/bins/oc /bin/.
 WORKDIR /app
 COPY . .
 ENV KUBECONFIG=/app/apps/.kube/config
-RUN mkdir /app/apps/.kube && chmod -R 777 /app/apps && npm install
+RUN mkdir -p /app/apps/.kube && chmod -R 777 /app/apps && npm install
 
 EXPOSE 3000
 CMD [ "npm", "start" ] 

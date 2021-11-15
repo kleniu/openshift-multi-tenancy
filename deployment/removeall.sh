@@ -102,6 +102,10 @@ function remove_openshift_build() {
         oc delete buildconfig $P -n openshift
     done 
     
+    for P in `oc get imagestreams -n openshift | awk '{print $1}' | grep -e '-build$' | xargs`; do 
+        echo "## removing image streams: ${P}"
+        oc delete imagestream $P -n openshift
+    done 
 }
 
 
